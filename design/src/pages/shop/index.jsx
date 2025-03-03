@@ -28,7 +28,7 @@ const Shop = () => {
 
       <div className="lg:px-[160px] md:px-[32px] px-[32px] pt-[60px] pb-[100px] flex justify-between items-center gap-[24px]">
         <div className="grid grid-cols-1"></div>
-        <div className="grid xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-[24px]">
+        <div className="grid xl:grid-cols-3 grid-cols-2  gap-[12px] lg:gap-[24px]">
           <Product />
           <Product />
           <Product />
