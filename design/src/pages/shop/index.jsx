@@ -2,8 +2,39 @@ import React from 'react'
 import Product from '@/components/product'
 import Breadcrumbs from '@/components/bread'
 import Bg from '@/assets/bg.svg?url'  
+import { getAPIData } from '@/http/api'
+import Chevron from "@/assets/chevron.svg"
+import Nine from "@/assets/nine.svg"
+import Four from "@/assets/four.svg"
+import Row from "@/assets/row.svg"
+import Column from "@/assets/column.svg"
+import { useQuery } from '@tanstack/react-query'
+import { QueryKeys } from '@/constant/keys'
+import Filter from '@/assets/filter.svg'
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 
 const Shop = () => {
+  const { data } = useQuery({
+    queryKey: [QueryKeys.PRODUCTS],
+    queryFn: async () => await getAPIData("products?populate=*"),
+  });
+  console.log(data)
+  const { data: mydata } = useQuery({
+    queryKey: [QueryKeys.CATEGORIES],
+    queryFn: async () => await getAPIData("categories"),
+  });
+  console.log(mydata, "salam");
+  
+  const { data: maybe } = useQuery({
+    queryKey: [QueryKeys.COLORS],
+    queryFn: async () => await getAPIData("colors"),
+  });
+  console.log(maybe, "maybe");
+  
+  const [startValue, setStartValue] = React.useState(0);
+  const [endValue, setEndValue] = React.useState(1000);
+  
   return (
     <div>
       <div
@@ -26,21 +57,123 @@ const Shop = () => {
         </div>
       </div>
 
-      <div className="lg:px-[160px] md:px-[32px] px-[32px] pt-[60px] pb-[100px] flex justify-between items-center gap-[24px]">
-        <div className="grid grid-cols-1"></div>
-        <div className="grid xl:grid-cols-3 grid-cols-2  gap-[12px] lg:gap-[24px]">
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
+      <div className="lg:px-[160px] md:px-[32px] px-[32px] pt-[60px] pb-[100px] grid grid-cols-12 gap-[24px]">
+        <div className="lg:col-span-3 md:col-span-3 col-span-12  ">
+<div className='flex flex-col justify-start items-start gap-[32px]'>
+<div className='flex justify-start items-center gap-[8px]'>
+        <div><Filter className='w-[24px] h-[24px]'/></div>
+        <div className='font-inter leading-[32px] text-[20px] font-semibold capitalize'>
+filter            </div>
+</div>
+<div className='flex flex-col justify-start items-start gap-[16px]'>
+<h1 className='mb-0 uppercase font-semibold font-inter text-base leading-[26px]'>
+categories
+            </h1>
+          <ul  className='text-list flex flex-col   capitalize gap-[12px] text-sm font-semibold font-inter '>
+           
+          {mydata && mydata?.data?.map((el) => (
+  <li className='leading-[22px]'  key={el.id}
+>
+  {el.name} 
+  
+  </li>
+))}
+          </ul>
+</div>
+<div className='flex flex-col justify-start items-start gap-[16px]'>
+<h1 className='mb-0 uppercase font-semibold font-inter text-base leading-[26px]'>
+colors
+            </h1>
+          <ul  className='text-list flex flex-col   capitalize gap-[12px] text-sm font-semibold font-inter '>
+           
+          {maybe && maybe?.data?.map((el) => (
+  <li className='leading-[22px]'  key={el.id}
+>
+  {el.name} 
+  
+  </li>
+))}
+          </ul>
+</div>
+<div className='w-full'>
+<RangeSlider
+  min={0}
+  max={1500}
+  defaultValue={[0, 1500]}
+  value={0}
+  onInput={(value) => {
+    setStartValue(value[0]);
+    setEndValue(value[1]);
+  }}
+/>
+
+<div className="flex justify-between items-center my-3">
+  <button>{startValue}</button>
+  <button>{endValue}</button>
+</div>
+
+</div>
+</div>
         </div>
+       <div className='lg:col-span-9 md:col-span-9 col-span-12'>
+       <div className='flex flex-col gap-[40px]'>
+        <div className="flex flex-col lg:flex-row justify-between items-start">
+        <div className='font-inter leading-[32px] text-[20px] font-semibold capitalize'>
+              living room 
+            </div>
+<div className='flex justify-center gap-[32px]'>
+  <div className='flex justify-center items-center gap-[4px]'>
+<div className='font-inter text-base leading-[26px] font-semibold'>
+  sort by
+</div>
+<div>
+<Chevron/>
+</div>
+  </div>
+  <div className='justify-start items-start flex'>
+    <div className='px-[11px] py-[8px]'>
+      <Nine/>
+      </div> 
+      <div className='px-[11px] py-[8px]'>
+      <Four/>
+      </div>  <div className='px-[11px] py-[8px]'>
+      <Row/>
+      </div> 
+       <div className='px-[11px] py-[8px]'>
+      <Column/>
+      </div> 
+
+  </div>
+
+</div>
+          </div>
+       <div className='flex flex-col items-center justify-start gap-[80px]'>
+       <div className="grid xl:grid-cols-3 grid-cols-2  gap-[12px] lg:gap-[24px]">
+{data && data?.data?.map((el) => (
+  <Product
+  key={el.id}
+  name={el.name} 
+  oldp={el.oldp} 
+  announcement={el.announcement} 
+  newp={el.newp} 
+  image={
+    el.image?.url? `http://localhost:1337${el.image.url}`  
+      : "https://dummyimage.com/150"  
+  }
+  colors={ [el.colors[0].name]}
+  sale={el.sale}
+  rating={el.rating}
+/>
+
+))}
+
+        </div>
+        <button className='flex text-center justify-center items-center font-inter  text-footbg text-base  tracking-[-0.4px] leading-[28px] font-medium border border-footbg rounded-[80px] py-[6px] px-[40px]'>
+          Show more
+        </button>
+       </div>
+        </div>
+       </div>
       </div>
     </div>
   )

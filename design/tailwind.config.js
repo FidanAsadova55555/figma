@@ -13,6 +13,7 @@ module.exports = {
         anounce:"#121212",
         button:"#38CB89",
         btntxt:"#FEFEFE",
+        list:"#807E7E",
         old:"#6C7275",
         off:"#605F5F",
         footbg:"#141718",

@@ -3,6 +3,9 @@ import { Link, useLocation } from "react-router";
 import "remixicon/fonts/remixicon.css";
 import LogoComponent from "../common/logo";
 import HeaderLogo from "@/assets/logo.svg";
+import Shopingbag from "@/assets/bag.svg";
+import User from "@/assets/user.svg"
+import Search from "@/assets/search.svg"
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,12 +48,11 @@ const Header = () => {
           </div>
 
           <div className="flex flex-row justify-between items-center gap-[16px]">
-            <i className="ri-search-line text-[24px] hidden lg:inline"></i>
-            <i className="ri-user-line text-[24px] hidden lg:inline"></i>
+            <Search className=" text-[24px] hidden lg:inline"/>
+            <User className=" text-[24px] hidden lg:inline"/>
 
             <div className="flex justify-center items-center">
-              <i className="ri-shopping-bag-2-line text-[24px]"></i>
-              <span className="rounded-full border bg-black text-white w-[20px] flex items-center justify-center h-[20px]">
+<Shopingbag/>              <span className="rounded-full border bg-black text-white w-[20px] flex items-center justify-center h-[20px]">
                 2
               </span>
             </div>
