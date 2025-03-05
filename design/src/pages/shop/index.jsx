@@ -88,37 +88,36 @@ filter            </div>
 <h1 className='mb-0 uppercase font-semibold font-inter text-base leading-[26px]'>
 categories
             </h1>
-          <ul  className='text-list flex flex-col   capitalize gap-[12px] text-sm font-semibold font-inter '>
-           
-          {mydata && mydata?.data?.map((el) => (
-  <li
-    className='leading-[22px]'
-    key={el.id}
-    onClick={() => el.name === "all rooms" ? setCategories('') : setCategories(el.name)}
-  >
-    {el.name}
-  </li>
-))}
-
-
-
-          </ul>
+            <ul className="text-list flex flex-col capitalize gap-[12px] text-sm font-semibold font-inter">
+                {mydata && mydata?.data?.map((el) => (
+                  <li
+                    className="leading-[22px] cursor-pointer"
+                    key={el.id}
+                    onClick={() => {
+                      setCategories(el.name === "all rooms" ? '' : el.name); setColors('');}}>
+                    {el.name}
+                  </li>
+                ))}
+              </ul>
 </div>
 <div className='flex flex-col justify-start items-start gap-[16px]'>
 <h1 className='mb-0 uppercase font-semibold font-inter text-base leading-[26px]'>
 colors
             </h1>
-          <ul  className='text-list flex flex-col   capitalize gap-[12px] text-sm font-semibold font-inter '>
-           
-          {maybe && maybe?.data?.map((el) => (
-  <li
-  onClick={() => setColors(el.name)}  className='leading-[22px]'  key={el.id}
->
-  {el.name} 
-  
-  </li>
-))}
-          </ul>
+            <ul className="text-list flex flex-col capitalize gap-[12px] text-sm font-semibold font-inter">
+                {maybe && maybe?.data?.map((el) => (
+                  <li
+                    className="leading-[22px] cursor-pointer"
+                    key={el.id}
+                    onClick={() => {
+                      setColors(el.name);
+                      setCategories(''); 
+                    }}
+                  >
+                    {el.name}
+                  </li>
+                ))}
+              </ul>
 </div>
 <div className='w-full'>
 <RangeSlider
