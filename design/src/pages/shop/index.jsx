@@ -32,13 +32,16 @@ const Shop = () => {
         if (categories) {
           query += `&filters[categories][name][$contains]=${encodeURIComponent(categories)}`;
         }
-        if(startValue){
-          // query += `&filters[price][$gte]=${String(startValue)}&filters[price][$lte]=${String(endValue)}`;
+        if (startValue !== null && endValue !== null) {
+          query += `&filters[newp][$gte]=${encodeURIComponent(startValue)}&filters[newp][$lte]=${encodeURIComponent(endValue)}`;
         }
-    
+        
+        console.log(" just  for checking price query  :", query);
+
         return await getAPIData(query);
       },
     });
+    
     
   console.log(data)
   const { data: mydata } = useQuery({
@@ -110,11 +113,10 @@ colors
                     className="leading-[22px] cursor-pointer"
                     key={el.id}
                     onClick={() => {
-                      setColors(el.name);
-                      setCategories(''); 
+                      setColors(el.name);setCategories(''); 
                     }}
                   >
-                    {el.name}
+          {el.name}
                   </li>
                 ))}
               </ul>
