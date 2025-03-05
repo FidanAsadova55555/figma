@@ -13,12 +13,33 @@ import { QueryKeys } from '@/constant/keys'
 import Filter from '@/assets/filter.svg'
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-
+import { useState } from 'react'
 const Shop = () => {
-  const { data } = useQuery({
-    queryKey: [QueryKeys.PRODUCTS],
-    queryFn: async () => await getAPIData("products?populate=*"),
-  });
+  const [startValue, setStartValue] = React.useState(0);
+  const [endValue, setEndValue] = React.useState(1500);
+
+   const [colors, setColors] = useState('')
+    const [categories, setCategories] = useState('')
+    const { data } = useQuery({
+      queryKey: [QueryKeys.PRODUCTS, startValue, endValue, colors, categories],
+      queryFn: async () => {
+        let query = `products?populate=*`;
+    
+        if (colors) {
+          query += `&filters[colors][name][$contains]=${encodeURIComponent(colors)}`;
+        }
+        
+        if (categories) {
+          query += `&filters[categories][name][$contains]=${encodeURIComponent(categories)}`;
+        }
+        if(startValue){
+          // query += `&filters[price][$gte]=${String(startValue)}&filters[price][$lte]=${String(endValue)}`;
+        }
+    
+        return await getAPIData(query);
+      },
+    });
+    
   console.log(data)
   const { data: mydata } = useQuery({
     queryKey: [QueryKeys.CATEGORIES],
@@ -32,8 +53,6 @@ const Shop = () => {
   });
   console.log(maybe, "maybe");
   
-  const [startValue, setStartValue] = React.useState(0);
-  const [endValue, setEndValue] = React.useState(1000);
   
   return (
     <div>
@@ -72,12 +91,17 @@ categories
           <ul  className='text-list flex flex-col   capitalize gap-[12px] text-sm font-semibold font-inter '>
            
           {mydata && mydata?.data?.map((el) => (
-  <li className='leading-[22px]'  key={el.id}
->
-  {el.name} 
-  
+  <li
+    className='leading-[22px]'
+    key={el.id}
+    onClick={() => el.name === "all rooms" ? setCategories('') : setCategories(el.name)}
+  >
+    {el.name}
   </li>
 ))}
+
+
+
           </ul>
 </div>
 <div className='flex flex-col justify-start items-start gap-[16px]'>
@@ -87,7 +111,8 @@ colors
           <ul  className='text-list flex flex-col   capitalize gap-[12px] text-sm font-semibold font-inter '>
            
           {maybe && maybe?.data?.map((el) => (
-  <li className='leading-[22px]'  key={el.id}
+  <li
+  onClick={() => setColors(el.name)}  className='leading-[22px]'  key={el.id}
 >
   {el.name} 
   
