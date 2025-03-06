@@ -16,17 +16,36 @@ import 'react-range-slider-input/dist/style.css';
 import { useState } from 'react'
 import Search from '@/components/search/search'
 const Shop = () => {
+
   const [startValue, setStartValue] = React.useState(0);
   const [endValue, setEndValue] = React.useState(1500);
 
    const [colors, setColors] = useState('')
     const [categories, setCategories] = useState('')
     const [searchTerm, setSearchTerm] = useState('');  
+    const [showAll, setShowAll] = useState(false);
 
-    const { data } = useQuery({
-      queryKey: [QueryKeys.PRODUCTS, startValue, endValue, colors, categories, searchTerm],  
+   const { data: settingsData } = useQuery({
+    queryKey: [QueryKeys.PAGINATIONSETTINGS],
+    queryFn: async () => {
+      const response = await getAPIData("paginationsettings");
+      return response.data?.[0];
+    },
+
+  });
+  console.log(settingsData,"sizechecking")
+
+
+  const pageSize = settingsData?.pagesize 
+  console.log(pageSize,"sizeee")
+  
+  const { data } = useQuery({
+    queryKey: [QueryKeys.PRODUCTS, startValue, endValue, colors, categories, searchTerm, showAll],
       queryFn: async () => {
         let query = 'products?populate=*';
+        if (!showAll) {
+          query += `&pagination[page]=1&pagination[pageSize]=${pageSize}`;
+        }
     
        if (colors) {
   query += `&filters[colors][name][$contains]=${encodeURIComponent(colors)}`;
@@ -214,7 +233,7 @@ colors
 ))}
 
         </div>
-        <button className='flex text-center justify-center items-center font-inter  text-footbg text-base  tracking-[-0.4px] leading-[28px] font-medium border border-footbg rounded-[80px] py-[6px] px-[40px]'>
+        <button onClick={() => setShowAll(true)} className='flex text-center justify-center items-center font-inter  text-footbg text-base  tracking-[-0.4px] leading-[28px] font-medium border border-footbg rounded-[80px] py-[6px] px-[40px]'>
           Show more
         </button>
        </div>
