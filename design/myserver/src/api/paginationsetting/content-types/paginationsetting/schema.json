@@ -1,0 +1,17 @@
+{
+  "kind": "collectionType",
+  "collectionName": "paginationsettings",
+  "info": {
+    "singularName": "paginationsetting",
+    "pluralName": "paginationsettings",
+    "displayName": "paginationsetting"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "pagesize": {
+      "type": "integer"
+    }
+  }
+}

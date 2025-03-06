@@ -557,6 +557,35 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiPaginationsettingPaginationsetting
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'paginationsettings';
+  info: {
+    displayName: 'paginationsetting';
+    pluralName: 'paginationsettings';
+    singularName: 'paginationsetting';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::paginationsetting.paginationsetting'
+    > &
+      Schema.Attribute.Private;
+    pagesize: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -1112,6 +1141,7 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::color.color': ApiColorColor;
       'api::global.global': ApiGlobalGlobal;
+      'api::paginationsetting.paginationsetting': ApiPaginationsettingPaginationsetting;
       'api::product.product': ApiProductProduct;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
