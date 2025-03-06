@@ -25,51 +25,50 @@ const Shop = () => {
     const [searchTerm, setSearchTerm] = useState('');  
     const [showAll, setShowAll] = useState(false);
 
-   const { data: settingsData } = useQuery({
-    queryKey: [QueryKeys.PAGINATIONSETTINGS],
-    queryFn: async () => {
-      const response = await getAPIData("paginationsettings");
-      return response.data?.[0];
-    },
-
-  });
-  console.log(settingsData,"sizechecking")
-
-
-  const pageSize = settingsData?.pagesize 
-  console.log(pageSize,"sizeee")
-  
-  const { data } = useQuery({
-    queryKey: [QueryKeys.PRODUCTS, startValue, endValue, colors, categories, searchTerm, showAll],
+    const { data: settingsData, isSuccess: isSettingsLoaded } = useQuery({
+      queryKey: [QueryKeys.PAGINATIONSETTINGS],
       queryFn: async () => {
+        const response = await getAPIData("paginationsettings");
+        return response.data?.[0];
+      },
+    });
+    
+    const pageSize = settingsData?.pagesize ?? 5; 
+    console.log(settingsData,"sizechecking")
+    console.log(pageSize,"pageschecking")
+
+
+    const { data } = useQuery({
+      queryKey: [QueryKeys.PRODUCTS, startValue, endValue, colors, categories, searchTerm, showAll],
+      queryFn: async () => {
+        if (!isSettingsLoaded) return null;  
         let query = 'products?populate=*';
         if (!showAll) {
           query += `&pagination[page]=1&pagination[pageSize]=${pageSize}`;
         }
-    
-       if (colors) {
-  query += `&filters[colors][name][$contains]=${encodeURIComponent(colors)}`;
-}
-
+        if (colors) {
+          query += `&filters[colors][name][$contains]=${encodeURIComponent(colors)}`;
+          
+        }
         console.log("just for checking:", query);  
 
-    
+
         if (categories) {
           query += `&filters[categories][name][$contains]=${encodeURIComponent(categories)}`;
         }
-    
         if (startValue !== null && endValue !== null) {
           query += `&filters[newp][$gte]=${encodeURIComponent(startValue)}&filters[newp][$lte]=${encodeURIComponent(endValue)}`;
         }
-    
         if (searchTerm) {
           query += `&filters[name][$contains]=${encodeURIComponent(searchTerm)}`;
         }
-    
         console.log("just for checking:", query);  
+ 
         return await getAPIData(query);
       },
+      enabled: isSettingsLoaded, 
     });
+    
     
     
   console.log(data)
@@ -206,9 +205,7 @@ colors
 </div>
           </div>
           <Search onSearch={(value) => {
-  setSearchTerm(value);
-  setColors('');
-  setCategories('');
+  setSearchTerm(value);setColors('');setCategories('');
 }} />
 
        <div className='flex flex-col items-center justify-start gap-[80px]'>
