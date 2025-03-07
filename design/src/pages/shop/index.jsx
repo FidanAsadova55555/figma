@@ -15,6 +15,7 @@ import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import { useState } from 'react'
 import Search from '@/components/search/search'
+import { Link } from 'react-router'
 const Shop = () => {
 
   const [startValue, setStartValue] = React.useState(0);
@@ -211,8 +212,8 @@ colors
        <div className='flex flex-col items-center justify-start gap-[80px]'>
        <div className="grid xl:grid-cols-3 grid-cols-2  gap-[12px] lg:gap-[24px]">
 {data && data?.data?.map((el) => (
+  <Link to={`/shop/${el.id}`} key={el.id}>
   <Product
-  key={el.id}
   name={el.name} 
   oldp={el.oldp} 
   announcement={el.announcement} 
@@ -226,7 +227,7 @@ colors
   sale={el.sale}
   rating={el.rating}
 />
-
+</Link>
 ))}
 
         </div>
