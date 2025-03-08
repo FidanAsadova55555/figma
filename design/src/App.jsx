@@ -1,12 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { RouterProvider } from 'react-router';
 import { Router } from './routers';
+import { CartProvider } from './provider'; 
 
 const App = () => {
   return (
-    
-    <RouterProvider router={Router} />  
-  )
-}
+    <CartProvider> 
+      <RouterProvider router={Router} />
+    </CartProvider>
+  );
+};
 
-export default App
+export default App;

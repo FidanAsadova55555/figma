@@ -2,7 +2,7 @@ import React from 'react';
 import Star from "@/assets/star.svg";
 import clsx from "clsx";
 
-const Product = ({ colors, name, newp, oldp, image, announcement, rating, ...props }) => {
+const Product = ({ colors,addToCart, name, newp, oldp, image, announcement, rating, ...props }) => {
   const CheckColorProduct = (color) => {
     switch (color) {
       case "black":
@@ -68,9 +68,13 @@ const Product = ({ colors, name, newp, oldp, image, announcement, rating, ...pro
             <div className="line-through font-normal text-old">
               ${Number(oldp).toFixed(2)}
             </div>
+            
           )}
+
         </div>
+
       </div>
+
     </div>
   );
 };

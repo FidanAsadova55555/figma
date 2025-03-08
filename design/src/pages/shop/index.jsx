@@ -16,6 +16,9 @@ import 'react-range-slider-input/dist/style.css';
 import { useState } from 'react'
 import Search from '@/components/search/search'
 import { Link } from 'react-router'
+// import { useCartContext } from '../../provider'
+// import { toast } from 'sonner';
+
 const Shop = () => {
 
   const [startValue, setStartValue] = React.useState(0);
@@ -25,6 +28,8 @@ const Shop = () => {
     const [categories, setCategories] = useState('')
     const [searchTerm, setSearchTerm] = useState('');  
     const [showAll, setShowAll] = useState(false);
+    
+
 
     const { data: settingsData, isSuccess: isSettingsLoaded } = useQuery({
       queryKey: [QueryKeys.PAGINATIONSETTINGS],
@@ -212,8 +217,10 @@ colors
        <div className='flex flex-col items-center justify-start gap-[80px]'>
        <div className="grid xl:grid-cols-3 grid-cols-2  gap-[12px] lg:gap-[24px]">
 {data && data?.data?.map((el) => (
-  <Link to={`/shop/${el.id}`} key={el.id}>
+  <div key={el.id}>
+  <Link to={`/shop/${el.id}`} >
   <Product
+ 
   name={el.name} 
   oldp={el.oldp} 
   announcement={el.announcement} 
@@ -227,7 +234,15 @@ colors
   sale={el.sale}
   rating={el.rating}
 />
+
 </Link>
+{/* <button onClick={() => {
+    addToCart(el);
+    toast.success('Product added to cart');
+}}>
+    Add to Cart
+</button> */}
+</div>
 ))}
 
         </div>
