@@ -11,11 +11,16 @@ export const getAPIData = async (url, ...config) => {
 
 export const postAPIData = async (url, data, config = {}) => {
     try {
-      const response = await AxiosInstance.post(url, data, config);
-      return response.data;
+        console.log(` Request : ${AxiosInstance.defaults.baseURL}${url}`);
+        console.log("Payload:", JSON.stringify(data, null, 2));
+
+        const response = await AxiosInstance.post(url, data, config);
+        console.log("leyla", response.data);
+        return response.data;
     } catch (error) {
-      console.error("❌ API Error (POST):", error);
-      throw error;
+        console.error("error", error.response?.data || error);
+        throw error;
     }
-  };
+};
+
   

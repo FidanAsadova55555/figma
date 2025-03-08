@@ -8,6 +8,7 @@ const CartButton = ({ product }) => {
 
     const increment = () => setQuantity((prev) => prev + 1);
     const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+    
 
     return (
         <div className="w-full py-[32px] flex justify-center items-center flex-col gap-[16px]">

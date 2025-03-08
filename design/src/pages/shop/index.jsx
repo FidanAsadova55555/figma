@@ -16,8 +16,6 @@ import 'react-range-slider-input/dist/style.css';
 import { useState } from 'react'
 import Search from '@/components/search/search'
 import { Link } from 'react-router'
-// import { useCartContext } from '../../provider'
-// import { toast } from 'sonner';
 
 const Shop = () => {
 
@@ -236,12 +234,7 @@ colors
 />
 
 </Link>
-{/* <button onClick={() => {
-    addToCart(el);
-    toast.success('Product added to cart');
-}}>
-    Add to Cart
-</button> */}
+
 </div>
 ))}
 
