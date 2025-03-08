@@ -45,7 +45,7 @@ const Detail = () => {
       sale={leyla.sale}
       rating={leyla.rating}
     />
-        
+
     </div>
   );
 };

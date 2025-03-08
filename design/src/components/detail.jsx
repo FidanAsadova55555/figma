@@ -1,6 +1,7 @@
 import React from 'react'
 import Star from "@/assets/star.svg";
 import {CountdownTimer} from "@/common/duration.jsx";
+import CartButton from './cartbutton';
 
 const JustDetail = ({ colors, name, newp, oldp, image, announcement, rating, ...props }) => {
     const renderStars = (rating) => {
@@ -44,13 +45,13 @@ const JustDetail = ({ colors, name, newp, oldp, image, announcement, rating, ...
         </div>
         <div className='flex justify-start items-center gap-[12px]'>
 <div className="  text-[28px]  font-poppins font-medium capitalize leading-[34px] tracking-[-0.6px]">${Number(newp).toFixed(2)}</div>
-<div className='line-through text-[20px] leading-[28px] font-poppins text-old'>${Number(newp).toFixed(2)}</div>
+<div className='line-through text-[20px] leading-[28px] font-poppins text-old'>${Number(oldp).toFixed(2)}</div>
         </div>
         </div>
         <div className='flex py-[24px] flex-col items-start justify-start w-full border-b border-[#E8ECEF]'>
         <h1 className='text-base font-inter leading-[26px] text-[#343839]'>Offer expires in:</h1>
         <CountdownTimer targetDate="2025-03-10T00:00:00" />
-
+<CartButton/>
 </div>
 <div></div>
     </div>
