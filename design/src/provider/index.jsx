@@ -3,8 +3,21 @@ import { useState, useContext, createContext, useEffect } from "react";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [carts, setCarts] = useState([]);
-    const [totalAmount, setTotalAmount] = useState(0); 
+    const [carts, setCarts] = useState(() => {
+        const savedCart = localStorage.getItem("cart");
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+    const [totalAmount, setTotalAmount] = useState(0);
+
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(carts));
+    }, [carts]);
+
+    useEffect(() => {
+        const total = carts.reduce((acc, item) => acc + item.discountprice * item.quantity, 0);
+        setTotalAmount(total);
+    }, [carts]);
 
     const addToCart = (product) => {
         setCarts((prev) => {
@@ -21,7 +34,6 @@ export const CartProvider = ({ children }) => {
                 updatedCart = [...prev, { ...product, quantity: product.quantity }];
             }
 
-            console.log("Cart Updated:", updatedCart); 
             return updatedCart;
         });
     };
@@ -30,16 +42,19 @@ export const CartProvider = ({ children }) => {
         setCarts((prev) => prev.filter((item) => item.id !== productId));
     };
 
-    useEffect(() => {
-        const total = carts.reduce((acc, item) => acc + (item.discountprice * item.quantity), 0);
-        setTotalAmount(total);
-        console.log("Total Amount Updated:", total); 
-    }, [carts]); 
+    const updateCartQuantity = (productId, newQuantity) => {
+        setCarts((prev) =>
+            prev.map((item) =>
+                item.id === productId ? { ...item, quantity: Math.max(1, newQuantity) } : item
+            )
+        );
+    };
 
     const cartValues = {
         carts,
         addToCart,
         removeFromCart,
+        updateCartQuantity,
         totalAmount,
     };
 

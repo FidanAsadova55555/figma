@@ -6,10 +6,15 @@ import HeaderLogo from "@/assets/logo.svg";
 import Shopingbag from "@/assets/bag.svg";
 import User from "@/assets/user.svg"
 import Search from "@/assets/search.svg"
+import { useCartContext } from "@/provider";
+
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { carts } = useCartContext();
+
+  const totalItems = carts.reduce((total, item) => total + item.quantity, 0);
 
   const menuItems = [
     { name: "home", path: "/" },
@@ -53,7 +58,8 @@ const Header = () => {
 
             <div className="flex justify-center items-center">
 <Shopingbag/>              <span className="rounded-full border bg-black text-white w-[20px] flex items-center justify-center h-[20px]">
-                2
+{totalItems}
+
               </span>
             </div>
           </div>

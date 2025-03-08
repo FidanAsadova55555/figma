@@ -17,6 +17,8 @@ const Detail = () => {
     queryKey: [QueryKeys.PRODUCTS],
     queryFn: async () => {
       const response = await getAPIData(`products?populate=*`);
+      console.log("Available Product IDs in Strapi:", response.data.map(p => p.id));
+
       return response.data;
     },
     enabled: !!id, 
