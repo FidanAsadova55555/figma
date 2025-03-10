@@ -6,21 +6,35 @@ dayjs.extend(duration);
 
 export const CountdownTimer = ({ targetDate }) => {
   const getTimeLeft = () => {
-    const now = dayjs(); 
-    const target = dayjs(targetDate); 
-    const diff = target.diff(now); 
+    const now = dayjs();
+    const target = dayjs(targetDate);
+    const diff = target.diff(now);
     return dayjs.duration(diff);
   };
 
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+  const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
+    if (timeLeft.asSeconds() <= 0) {
+      setTimeLeft(dayjs.duration(0)); 
+      setIsExpired(true); 
+      return; 
+    }
+
     const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft());
+      const newTimeLeft = getTimeLeft();
+      if (newTimeLeft.asSeconds() <= 0) {
+        setTimeLeft(dayjs.duration(0)); 
+        setIsExpired(true);
+        clearInterval(timer); 
+      } else {
+        setTimeLeft(newTimeLeft); 
+      }
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [targetDate]);
+    return () => clearInterval(timer); 
+  }, [targetDate]); 
 
   return (
     <div className="flex gap-[16px]">
@@ -33,14 +47,19 @@ export const CountdownTimer = ({ targetDate }) => {
         if (index === 3) value = timeLeft.seconds();
 
         return (
-          <div className="flex flex-col justify-center items-center">
-          <div key={unit} className="bg-gray-100 rounded-[8px] py-[11px]  px-[9px]  text-center text-footbg font-poppins text-[34px]  font-medium leading-[38px] tracking-[-0.6px] ">
-            <div className="text-3xl">{String(value).padStart(2, "0")}</div>
+          <div className="flex flex-col justify-center items-center" key={unit}>
+            <div className="bg-gray-100 rounded-[8px] py-[11px] px-[9px] text-center text-footbg font-poppins text-[34px] font-medium leading-[38px] tracking-[-0.6px] ">
+              <div className="text-3xl">{String(value).padStart(2, "0")}</div>
+            </div>
+            <div className="text-[12px] text-old font-inter font-normal leading-[20px]">{unit}</div>
           </div>
-                      <div className="text-[12px] text-old font-inter font-normal leading-[20px]" >{unit}</div>
-</div>
         );
       })}
+      {isExpired && (
+        <div className="text-red-500 text-base font-inter font-bold">
+          The offer has expired!
+        </div>
+      )}
     </div>
   );
 };

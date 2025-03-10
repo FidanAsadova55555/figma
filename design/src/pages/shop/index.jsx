@@ -186,7 +186,7 @@ colors
 <div className='flex justify-center gap-[32px]'>
   <div className='flex justify-center items-center gap-[4px]'>
 <div className='font-inter text-base leading-[26px] font-semibold'>
-  sort by
+  Sort by
 </div>
 <div>
 <Chevron/>
