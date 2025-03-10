@@ -21,6 +21,7 @@ const Shop = () => {
 
   const [startValue, setStartValue] = React.useState(0);
   const [endValue, setEndValue] = React.useState(1500);
+  const [startColumn, setColumn] = React.useState(3);
 
    const [colors, setColors] = useState('')
     const [categories, setCategories] = useState('')
@@ -112,8 +113,8 @@ const Shop = () => {
       </div>
 
       <div className="lg:px-[160px] md:px-[32px] px-[32px] pt-[60px] pb-[100px] grid grid-cols-12 gap-[24px]">
-        <div className="lg:col-span-3 md:col-span-3 col-span-12  ">
-<div className='flex flex-col justify-start items-start gap-[32px]'>
+      <div className="lg:col-span-3 md:col-span-3 col-span-12">
+      <div className='flex flex-col justify-start items-start gap-[32px]'>
 <div className='flex justify-start items-center gap-[8px]'>
         <div><Filter className='w-[24px] h-[24px]'/></div>
         <div className='font-inter leading-[32px] text-[20px] font-semibold capitalize'>
@@ -192,17 +193,19 @@ colors
 </div>
   </div>
   <div className='justify-start items-start flex'>
-    <div className='px-[11px] py-[8px]'>
-      <Nine/>
-      </div> 
-      <div className='px-[11px] py-[8px]'>
-      <Four/>
-      </div>  <div className='px-[11px] py-[8px]'>
-      <Row/>
-      </div> 
-       <div className='px-[11px] py-[8px]'>
-      <Column/>
-      </div> 
+  <div className='px-[11px] py-[8px]'>
+  <Nine onClick={() => setColumn(3)} />
+</div>
+<div className='px-[11px] py-[8px]'>
+  <Four onClick={() => setColumn(2)} />
+</div>
+<div className='px-[11px] py-[8px]'>
+  <Row onClick={() => setColumn(2)} />
+</div>
+<div className='px-[11px] py-[8px]'>
+  <Column onClick={() => setColumn(1)} />
+</div>
+
 
   </div>
 
@@ -212,9 +215,9 @@ colors
   setSearchTerm(value);setColors('');setCategories('');
 }} />
 
-       <div className='flex flex-col items-center justify-start gap-[80px]'>
-       <div className="grid xl:grid-cols-3 grid-cols-2  gap-[12px] lg:gap-[24px]">
-{data && data?.data?.map((el) => (
+       <div className='flex flex-col items-center justify-start gap-[80px] '>
+       <div className={`grid xl:grid-cols-${startColumn} grid-cols-2 gap-[12px] w-full lg:gap-[24px]`}>
+       {data && data?.data?.map((el) => (
   <div key={el.id}>
   <Link to={`/shop/${el.id}`} >
   <Product
