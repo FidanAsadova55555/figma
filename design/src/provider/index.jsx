@@ -50,13 +50,26 @@ export const CartProvider = ({ children }) => {
         );
     };
 
-    const cartValues = {
-        carts,
-        addToCart,
-        removeFromCart,
-        updateCartQuantity,
-        totalAmount,
-    };
+    // const cartValues = {
+    //     carts,
+    //     addToCart,
+    //     removeFromCart,
+    //     updateCartQuantity,
+    //     totalAmount,
+    // };
+    
+const [isCartOpen, setCartOpen] = useState(false);
+
+const cartValues = {
+  carts,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+  totalAmount,
+  isCartOpen,
+  setCartOpen,
+};
+
 
     return <CartContext.Provider value={cartValues}>{children}</CartContext.Provider>;
 };

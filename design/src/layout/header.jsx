@@ -7,12 +7,14 @@ import Shopingbag from "@/assets/bag.svg";
 import User from "@/assets/user.svg"
 import Search from "@/assets/search.svg"
 import { useCartContext } from "@/provider";
+import Drawer from "../components/drawer";
 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { carts } = useCartContext();
+  const { setCartOpen } = useCartContext();
 
   const totalItems = carts.reduce((total, item) => total + item.quantity, 0);
 
@@ -26,6 +28,7 @@ const Header = () => {
   return (
     <>
       <div className="lg:px-[160px] md:px-[32px] px-[32px] py-[16px]">
+        <Drawer/>
         <div className="flex flex-row justify-between items-center">
           
           <div className="flex flex-row items-center gap-[16px]">
@@ -57,10 +60,13 @@ const Header = () => {
             <User className=" text-[24px] hidden lg:inline"/>
 
             <div className="flex justify-center items-center">
-<Shopingbag/>              <span className="rounded-full border bg-black text-white w-[20px] flex items-center justify-center h-[20px]">
-{totalItems}
+<button onClick={() => setCartOpen(true)} className="relative flex items-center">
+  <Shopingbag />
+  <span className="absolute -top-1 -right-2 rounded-full border bg-black text-white w-[20px] h-[20px] flex items-center justify-center text-xs">
+    {totalItems}
+  </span>
+</button>
 
-              </span>
             </div>
           </div>
         </div>
