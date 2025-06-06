@@ -26,8 +26,8 @@ const Detail = () => {
 
   const [comments, setComments] = useState([]);
   const [form, setForm] = useState({
-    name: "",
-    desc: "",
+  name: "",
+  desc: "",
     stars: 0,
   });
 
@@ -53,7 +53,7 @@ const Detail = () => {
       return await postAPIData("/comments", { data: commentPayload });
     },
     onSuccess: (response) => {
-      console.log(" success:", response);
+  console.log(" success:", response);
       console.log(" Data:", form);
 
       setComments((prevComments) => [
@@ -61,8 +61,8 @@ const Detail = () => {
         ...prevComments,
       ]);
 
-      setForm({
-        name: "",
+    setForm({
+     name: "",
         desc: "",
         stars: 0,
       });

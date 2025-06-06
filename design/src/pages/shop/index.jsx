@@ -28,6 +28,12 @@ const Shop = () => {
     const [searchTerm, setSearchTerm] = useState('');  
     const [showAll, setShowAll] = useState(false);
     
+const myColumns = {
+  1: 'xl:grid-cols-1',
+  2: 'xl:grid-cols-2',
+  3: 'xl:grid-cols-3',
+  4: 'xl:grid-cols-4',
+};
 
 
     const { data: settingsData, isSuccess: isSettingsLoaded } = useQuery({
@@ -194,16 +200,16 @@ colors
   </div>
   <div className='justify-start items-start flex'>
   <div className='px-[11px] py-[8px]'>
-  <Nine onClick={() => setColumn(3)} />
+<Nine onClick={() => setColumn(3)} className={startColumn === 3 ? 'opacity-60' : 'opacity-40'} />
 </div>
 <div className='px-[11px] py-[8px]'>
-  <Four onClick={() => setColumn(2)} />
+<Four onClick={() => setColumn(4)} className={startColumn === 4 ? 'opacity-100' : 'opacity-60'} />
 </div>
 <div className='px-[11px] py-[8px]'>
-  <Row onClick={() => setColumn(2)} />
+<Row onClick={() => setColumn(2)} className={startColumn === 2 ? 'opacity-100' : 'opacity-60'} />
 </div>
 <div className='px-[11px] py-[8px]'>
-  <Column onClick={() => setColumn(1)} />
+<Column onClick={() => setColumn(1)} className={startColumn === 1 ? 'opacity-100' : 'opacity-60'} />
 </div>
 
 
@@ -216,7 +222,7 @@ colors
 }} />
 
        <div className='flex flex-col items-center justify-start gap-[80px] '>
-       <div className={`grid xl:grid-cols-${startColumn} grid-cols-2 gap-[12px] w-full lg:gap-[24px]`}>
+<div className={`grid grid-cols-2 gap-[12px] w-full lg:gap-[24px] ${myColumns[startColumn]}`}>
        {data && data?.data?.map((el) => (
   <div key={el.id}>
   <Link to={`/shop/${el.id}`} >

@@ -63,7 +63,7 @@ const JustDetail = ({ colors, name, newp, oldp, image, announcement, rating, ...
                     </div>
                     <div className='flex py-[24px] flex-col items-start justify-start w-full border-b border-[#E8ECEF]'>
                         <h1 className='text-base font-inter leading-[26px] text-[#343839]'>Offer expires in:</h1>
-                        <CountdownTimer targetDate="2025-03-15T00:00:00" />
+                        <CountdownTimer targetDate="2025-08-15T00:00:00" />
                         <CartButton product={product} />  
                     </div>
                     <div></div>
